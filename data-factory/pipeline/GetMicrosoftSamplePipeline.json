@@ -1,9 +1,9 @@
 {
-	"name": "GetGoogleSamplePipeline",
+	"name": "GetMicrosoftSamplePipeline",
 	"properties": {
 		"activities": [
 			{
-				"name": "GetGoogle",
+				"name": "GetMicrosoft",
 				"type": "WebActivity",
 				"dependsOn": [],
 				"policy": {
@@ -15,11 +15,12 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://www.google.com",
+					"url": "https://www.microsoft.com",
 					"method": "GET"
 				}
 			}
 		],
+		"concurrency": 1,
 		"annotations": []
 	}
 }
