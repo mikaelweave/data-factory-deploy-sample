@@ -15,7 +15,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"url": "https://www.microsoft.com",
+					"url": "https://www.microsoft.com/test",
 					"method": "GET"
 				}
 			}
