@@ -1,0 +1,7 @@
+# General
+.env
+
+# Terraform
+*.tfvars
+*/.terraform/*
+plan

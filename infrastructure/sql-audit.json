@@ -1,0 +1,36 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "serverName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the SQL server"
+            }
+        },
+        "databaseName": {
+            "type": "string",
+            "metadata": {
+                "description": "Name of the SQL Database"
+            }
+        },
+        "auditActionGroups": {
+            "type": "string",
+            "metadata": {
+                "description": "Comma separated values for auditingSettings -> auditActionsAndGroups"
+            }
+        }
+    },
+    "resources": [
+        {
+            "name": "[concat(parameters('serverName'), '/', parameters('databaseName'), '/default')]",
+            "type": "Microsoft.Sql/servers/databases/auditingSettings",
+            "apiVersion": "2017-03-01-preview",
+            "properties": {
+                "state": "Enabled",
+                "isAzureMonitorTargetEnabled": true,
+                "auditActionsAndGroups": "[split(parameters('auditActionGroups'),',')]"
+            }
+        }
+    ]
+}
