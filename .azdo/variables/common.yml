@@ -1,0 +1,11 @@
+variables:
+  - name: LOCATION
+      value: 'westus2'
+  - name: BASE_NAME
+      value: 'mikadf-deploysample'
+  - name: TF_VER
+    value: '0.12.28'
+  - name: TF_STATE_STORAGE_ACCOUNT_NAME
+    value: 'mikaelterraform'
+  - name: TF_STATE_STORAGE_CONTAINER_NAME
+    value: 'data-factory-deploy-sample'

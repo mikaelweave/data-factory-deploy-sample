@@ -1,0 +1,7 @@
+variables:
+  - name: AZURE_SERVICE_CONNECTION_NAME
+    value: 'Azure Service Connection'
+  - name: TF_STATE_KEY_NAME
+    value: 'dev.tfstate'
+  - name: ADF_LINK_GITHUB
+    value: true

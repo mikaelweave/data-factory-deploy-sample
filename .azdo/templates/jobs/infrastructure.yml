@@ -1,0 +1,43 @@
+parameters:
+    environment: ''
+
+jobs:
+  - job: terraform deployment
+    pool:
+      vmImage: 'windows-latest'
+    variables:
+      - template: /.azdo/variables/common.yaml
+      - template: /.azdo/variables/${{ parameters.environment }}.yaml
+    steps:
+      - task: terraformInstaller@0
+        inputs:
+          terraformVersion: $(TF_VER)
+        displayName: Install Terraform
+
+      - task: terraform@0
+        inputs:
+          command: 'init'
+          providerAzureConnectedServiceName: '$(AZURE_SERVICE_CONNECTION_NAME)'
+          backendAzureProviderStorageAccountName: '$(TF_STATE_STORAGE_ACCOUNT_NAME)'
+          backendAzureContainerName: '$(TF_STATE_STORAGE_CONTAINER_NAME)'
+          backendAzureStateFileKey: '$(TF_STATE_KEY_NAME)'
+        displayName: Terraform Init
+        workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
+        
+      - task: terraform@0
+        inputs:
+          command: 'plan'
+          providerAzureConnectedServiceName: '${{ parameters.azure_service_connection_name }}'
+          args: -var=environment=demo -out=tfplan.out
+        displayName: Terraform Plan
+        workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
+
+      - task: terraform@0
+        inputs:
+          command: 'apply'
+          providerAzureConnectedServiceName: '${{ parameters.azure_service_connection_name }}'
+          args: tfplan.out
+        displayName: Terraform Apply
+        workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
+
+      
