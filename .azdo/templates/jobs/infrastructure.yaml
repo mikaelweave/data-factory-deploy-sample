@@ -9,35 +9,33 @@ jobs:
       - template: /.azdo/variables/common.yaml
       - template: /.azdo/variables/${{ parameters.environment }}.yaml
     steps:
-      - task: terraformInstaller@0
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
         inputs:
           terraformVersion: $(TF_VER)
-        displayName: Install Terraform
+        displayName: 'Install Terraform 0.12.3'
 
-      - task: terraform@0
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
         inputs:
           command: 'init'
           providerAzureConnectedServiceName: '$(AZURE_SERVICE_CONNECTION_NAME)'
           backendAzureProviderStorageAccountName: '$(TF_STATE_STORAGE_ACCOUNT_NAME)'
           backendAzureContainerName: '$(TF_STATE_STORAGE_CONTAINER_NAME)'
           backendAzureStateFileKey: '$(TF_STATE_KEY_NAME)'
+          workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
         displayName: Terraform Init
-        workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
         
-      - task: terraform@0
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
         inputs:
           command: 'plan'
-          providerAzureConnectedServiceName: '${{ parameters.azure_service_connection_name }}'
+          providerAzureConnectedServiceName: '$(AZURE_SERVICE_CONNECTION_NAME)'
           args: -var=environment=demo -out=tfplan.out
         displayName: Terraform Plan
         workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
 
-      - task: terraform@0
+      - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
         inputs:
           command: 'apply'
-          providerAzureConnectedServiceName: '${{ parameters.azure_service_connection_name }}'
+          providerAzureConnectedServiceName: '$(AZURE_SERVICE_CONNECTION_NAME)'
           args: tfplan.out
+          workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
         displayName: Terraform Apply
-        workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
-
-      
