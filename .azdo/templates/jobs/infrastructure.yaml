@@ -28,15 +28,15 @@ jobs:
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
         inputs:
           command: 'plan'
+          workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
           providerAzureConnectedServiceName: '$(AZURE_SERVICE_CONNECTION_NAME)'
           args: -var=environment=demo -out=tfplan.out
         displayName: Terraform Plan
-        workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
         inputs:
           command: 'apply'
+          workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
           providerAzureConnectedServiceName: '$(AZURE_SERVICE_CONNECTION_NAME)'
           args: tfplan.out
-          workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
         displayName: Terraform Apply
