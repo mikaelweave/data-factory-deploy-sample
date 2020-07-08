@@ -2,7 +2,7 @@ parameters:
     environment: ''
 
 jobs:
-  - job: terraform deployment
+  - job: Terraform_Deployment
     pool:
       vmImage: 'windows-latest'
     variables:
