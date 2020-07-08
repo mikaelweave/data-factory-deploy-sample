@@ -11,7 +11,7 @@ jobs:
     steps:
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-installer-task.TerraformInstaller@0
         inputs:
-          terraformVersion: $(TF_VER)
+          terraformVersion: '${{ variables.TF_VER }}'
         displayName: 'Install Terraform 0.12.3'
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
@@ -19,17 +19,17 @@ jobs:
           provider: 'azurerm'
           command: 'init'
           workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
-          backendServiceArm: '$(AZURE_SERVICE_CONNECTION_NAME)'
-          backendAzureRmResourceGroupName: '$(TF_STATE_RESOURCE_GROUP_NAME)'
-          backendAzureRmStorageAccountName: $(TF_STATE_STORAGE_ACCOUNT_NAME)'
-          backendAzureRmContainerName: '$(TF_STATE_STORAGE_CONTAINER_NAME)'
-          backendAzureRmKey: '$(TF_STATE_KEY_NAME)'
+          backendServiceArm: '${{ variables.AZURE_SERVICE_CONNECTION_NAME }}'
+          backendAzureRmResourceGroupName: '${{ variables.TF_STATE_RESOURCE_GROUP_NAME }}'
+          backendAzureRmStorageAccountName: '${{ variables.TF_STATE_STORAGE_ACCOUNT_NAME }}'
+          backendAzureRmContainerName: '${{ variables.TF_STATE_STORAGE_CONTAINER_NAME }}'
+          backendAzureRmKey: '${{ variables.TF_STATE_KEY_NAME }}'
         
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
         inputs:
           command: 'plan'
           workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
-          providerAzureConnectedServiceName: '$(AZURE_SERVICE_CONNECTION_NAME)'
+          providerAzureConnectedServiceName: '${{ variables.AZURE_SERVICE_CONNECTION_NAME }}'
           args: -var=environment=demo -out=tfplan.out
         displayName: Terraform Plan
 
@@ -37,6 +37,6 @@ jobs:
         inputs:
           command: 'apply'
           workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
-          providerAzureConnectedServiceName: '$(AZURE_SERVICE_CONNECTION_NAME)'
+          providerAzureConnectedServiceName: '${{ variables.AZURE_SERVICE_CONNECTION_NAME }}'
           args: tfplan.out
         displayName: Terraform Apply
