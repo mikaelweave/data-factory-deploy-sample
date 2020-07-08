@@ -31,7 +31,9 @@ jobs:
           command: 'plan'
           workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
           environmentServiceNameAzureRM: '${{ variables.AZURE_SERVICE_CONNECTION_NAME }}'
-          args: -var=environment=demo -out=tfplan.out
+          args: -var 'location=${{ variables.LOCATION }}' -var 'environment=${{ parameters.environment }}'
+                -var 'base_name=${{ variables.BASE_NAME }}' -var 'adf_link_github=${{ variables.ADF_LINK_GITHUB }}'
+                -out=tfplan.out
         displayName: Terraform Plan
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
