@@ -16,13 +16,14 @@ jobs:
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
         inputs:
+          provider: 'azurerm'
           command: 'init'
-          providerAzureConnectedServiceName: '$(AZURE_SERVICE_CONNECTION_NAME)'
-          backendAzureProviderStorageAccountName: '$(TF_STATE_STORAGE_ACCOUNT_NAME)'
-          backendAzureContainerName: '$(TF_STATE_STORAGE_CONTAINER_NAME)'
-          backendAzureStateFileKey: '$(TF_STATE_KEY_NAME)'
           workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
-        displayName: Terraform Init
+          backendServiceArm: '$(AZURE_SERVICE_CONNECTION_NAME)'
+          backendAzureRmResourceGroupName: '$(TF_STATE_RESOURCE_GROUP_NAME)'
+          backendAzureRmStorageAccountName: $(TF_STATE_STORAGE_ACCOUNT_NAME)'
+          backendAzureRmContainerName: '$(TF_STATE_STORAGE_CONTAINER_NAME)'
+          backendAzureRmKey: '$(TF_STATE_KEY_NAME)'
         
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
         inputs:

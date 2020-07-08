@@ -5,6 +5,8 @@ variables:
       value: 'mikadf-deploysample'
   - name: TF_VER
     value: '0.12.28'
+  - name: TF_STATE_RESOURCE_GROUP_NAME
+    value: 'mikael-common'
   - name: TF_STATE_STORAGE_ACCOUNT_NAME
     value: 'mikaelterraform'
   - name: TF_STATE_STORAGE_CONTAINER_NAME
