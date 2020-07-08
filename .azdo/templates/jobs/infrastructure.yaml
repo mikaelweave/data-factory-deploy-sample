@@ -24,12 +24,13 @@ jobs:
           backendAzureRmStorageAccountName: '${{ variables.TF_STATE_STORAGE_ACCOUNT_NAME }}'
           backendAzureRmContainerName: '${{ variables.TF_STATE_STORAGE_CONTAINER_NAME }}'
           backendAzureRmKey: '${{ variables.TF_STATE_KEY_NAME }}'
+        displayName: 'Terraform Init'
         
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
         inputs:
           command: 'plan'
           workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
-          providerAzureConnectedServiceName: '${{ variables.AZURE_SERVICE_CONNECTION_NAME }}'
+          environmentServiceNameAzureRM: '${{ variables.AZURE_SERVICE_CONNECTION_NAME }}'
           args: -var=environment=demo -out=tfplan.out
         displayName: Terraform Plan
 
@@ -37,6 +38,6 @@ jobs:
         inputs:
           command: 'apply'
           workingDirectory: $(Build.SourcesDirectory)/deploy/terraform
-          providerAzureConnectedServiceName: '${{ variables.AZURE_SERVICE_CONNECTION_NAME }}'
+          environmentServiceNameAzureRM: '${{ variables.AZURE_SERVICE_CONNECTION_NAME }}'
           args: tfplan.out
         displayName: Terraform Apply
