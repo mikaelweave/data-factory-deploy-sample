@@ -33,7 +33,7 @@ jobs:
           environmentServiceNameAzureRM: '${{ variables.AZURE_SERVICE_CONNECTION_NAME }}'
           args: -var 'location=${{ variables.LOCATION }}' -var 'environment=${{ parameters.environment }}'
                 -var 'base_name=${{ variables.BASE_NAME }}' -var 'adf_link_github=${{ variables.ADF_LINK_GITHUB }}'
-                -out=tfplan.out
+                -out=tfplan.out -no-color -input=false
         displayName: Terraform Plan
 
       - task: ms-devlabs.custom-terraform-tasks.custom-terraform-release-task.TerraformTaskV1@0
